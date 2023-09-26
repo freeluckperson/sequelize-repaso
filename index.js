@@ -3,15 +3,11 @@ import { sequelize } from "./src/db.js";
 
 const port = 3000;
 
-// sequelize
-//   .sync({ force: true })
-//   .then(() =>
-//     app.listen(port, () => console.log(`Server rised in port ${port}`))
-//   );
-
 (async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.authenticate();
+    console.log("DB connection successfully");
+    await sequelize.sync({ alter: true });
     app.listen(port, () => {
       console.log(`Server rised in port ${port}`);
     });
