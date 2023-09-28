@@ -97,6 +97,27 @@ export const updateCharacter = async (req, res) => {
   }
 };
 
+//DELETE
+// export const deleteChar = async (req, res) => {
+//   try {
+//     const { ids } = req.query;
+//     const eraser = await character.destroy({ where: { id: ids.split(",") } });
+//     res.status(200).json(eraser);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
+export const deleteChar = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const eraser = await character.destroy({ where: { id } });
+    res.status(200).json(eraser);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //FILTRAR PRECIO
 // const { price, minPrice, maxPrice } = req.query;
 // let products;

@@ -1,5 +1,6 @@
 import { episode } from "../db.js";
 
+//FIND
 export const findAllEpisodes = async (req, res) => {
   try {
     const episodes = await episode.findAll();
@@ -9,6 +10,7 @@ export const findAllEpisodes = async (req, res) => {
   }
 };
 
+//CREATE
 export const createEpisode = async (req, res) => {
   try {
     const { name } = req.body;
