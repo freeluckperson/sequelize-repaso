@@ -82,13 +82,12 @@ export const createCharacter = async (req, res) => {
   }
 };
 
-
 //BULKCREATE
 export const bulkCreateCharacter = async (req, res) => {
   try {
-    const charactersData = req.body; // Array of character data [{ name, gender, episodes }, { name, gender, episodes }, ...]
+    const { characters } = req.body;
     const createdCharacters = await Promise.all(
-      charactersData.map(async (characterData) => {
+      characters.map(async (characterData) => {
         const { name, gender, episodes } = characterData;
         const newCharacter = await character.create({ name, gender });
         await newCharacter.addEpisodes(episodes);
@@ -100,6 +99,19 @@ export const bulkCreateCharacter = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+{
+  /*
+{
+  "characters": [
+    { "name": "Personaje 1", "gender": "male", "episodes": [1, 2, 3] },
+    { "name": "Personaje 2", "gender": "male", "episodes": [2, 4] },
+    { "name": "Personaje 3", "gender": "female", "episodes": [1, 3] }
+  ]
+}
+
+ */
+}
 
 //UPDATE
 export const updateCharacter = async (req, res) => {
