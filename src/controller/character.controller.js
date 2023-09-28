@@ -75,8 +75,27 @@ export const createCharacter = async (req, res) => {
   try {
     const { name, gender, episodes } = req.body;
     const newCharacter = await character.create({ name, gender });
-    newCharacter.addEpisodes(episodes);
+    await newCharacter.addEpisodes(episodes);
     res.status(200).json(newCharacter);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+//BULKCREATE
+export const bulkCreateCharacter = async (req, res) => {
+  try {
+    const charactersData = req.body; // Array of character data [{ name, gender, episodes }, { name, gender, episodes }, ...]
+    const createdCharacters = await Promise.all(
+      charactersData.map(async (characterData) => {
+        const { name, gender, episodes } = characterData;
+        const newCharacter = await character.create({ name, gender });
+        await newCharacter.addEpisodes(episodes);
+        return newCharacter;
+      })
+    );
+    res.status(200).json(createdCharacters);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
