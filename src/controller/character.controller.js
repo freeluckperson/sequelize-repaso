@@ -82,6 +82,21 @@ export const createCharacter = async (req, res) => {
   }
 };
 
+//UPDATE
+export const updateCharacter = async (req, res) => {
+  try {
+    const { name, gender, episodes } = req.body;
+    const { id } = req.query;
+    const updateChar = await character.findByPk(id);
+    updateChar.name = name;
+    updateChar.gender = gender;
+    await updateChar.save();
+    res.status(200).json(updateChar);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //FILTRAR PRECIO
 // const { price, minPrice, maxPrice } = req.query;
 // let products;
