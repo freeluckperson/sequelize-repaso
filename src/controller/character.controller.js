@@ -114,14 +114,20 @@ export const bulkCreateCharacter = async (req, res) => {
 }
 
 //UPDATE
+
 export const updateCharacter = async (req, res) => {
   try {
-    const { name, gender, episodes } = req.body;
     const { id } = req.query;
     const updateChar = await character.findByPk(id);
-    updateChar.name = name;
-    updateChar.gender = gender;
+
+    Object.assign(updateChar, req.body);
+
     await updateChar.save();
+
+    if (req.body.episodes) {
+      await updateChar.setEpisodes(req.body.episodes);
+    }
+
     res.status(200).json(updateChar);
   } catch (error) {
     res.status(400).json({ error: error.message });
